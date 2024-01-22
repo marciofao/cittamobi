@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 <?php
 
 ini_set("allow_url_fopen", 1);
