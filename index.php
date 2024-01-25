@@ -28,31 +28,30 @@ function detalha_servico($codigo, $dados=null){
     ?>
  <a href="javascript:history.back()">< voltar</a>
     <h1>Detalhes do Serviço</h1>
-    <ul>
+    
         <?php foreach ($dados->services as $key=>$service):?>
             <?php if($service->serviceId==$codigo): ?>
-                <?php // var_dump((array) $service);die; ?>
-                <?php foreach ( (array) $service as $k=>$item): ?>
-                    <?php if(is_array($item)): ?>
-                        <?php  //var_dump($item);die; ?>
-                        <li><?php echo $k ?>:</li>
-                        <?php if(sizeof($item)>0): ?>
-                            <ul>
-                                <?php foreach ($item as $v): ?>
-                                    <li><?php echo $v ?> </li>
-                                <?php endforeach ?>
-                            </ul>
-                        <?php endif ?>
-                    <?php else: ?>
-                        <li><?php echo $k ?>: <?php echo $item ?> </li>
-                    <?php endif ?>
-                <?php endforeach ?>
+                <?php lista_itens($service) ?>
+                
             <?php endif ?>
         <?php endforeach ?>
-    </ul>
+   
     <a href="javascript:history.back()  ">< voltar</a>
 
     <?php
 }
 
+function lista_itens($service){
+    echo '<ul>';
+    foreach ( (array) $service as $k=>$item){
+        if(is_array($item) || is_object($item)){
+            if(sizeof((array)$item)>0){
+                lista_itens($item);
+            } 
+        }else{
+            echo '<li>'.$k.': '.$item.'</li>';
+        }
+    }
+    echo '</ul>';
+}
 ?>
