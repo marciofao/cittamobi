@@ -29,7 +29,7 @@ function detalha_servico($codigo, $dados=null){
  <a href="javascript:history.back()">< voltar</a>
     <h1>Detalhes do Serviço</h1>
     
-        <?php foreach ($dados->services as $key=>$service):?>
+        <?php foreach ($dados->services as $service):?>
             <?php if($service->serviceId==$codigo): ?>
                 <?php lista_itens($service) ?>
                 
