@@ -1,13 +1,25 @@
+<?php session_start()  ?>
 <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 <?php
 
 ini_set("allow_url_fopen", 1);
 
 $url='https://api.cittamobi.com.br/m3p/js/prediction/stop/5443184?fbclid=IwAR2V-YkrT_5XGH2hSaqxSn3t21cYdJk9xII4oPbfqyie0r5daOLnKrP_T6c';
-$json = file_get_contents($url);
-$dados=json_decode($json);
 
-//var_dump($dados->services[0]); die($dados->services[0]->routeMnemonic);
+//valida se dados estão na sessão e se ja faz mais de 10 minutos que foi buscado os dados
+if(isset($_SESSION['cittamobi_data'])&&$_SESSION['cittamobi_timestamp']>(time()-600)){
+    //restaura dados armazenados em sessão
+    $dados = $_SESSION['cittamobi_data'];
+}else{
+    //busca dados na api
+    $json = file_get_contents($url);
+    $dados=json_decode($json);
+    //armazena dados na sessao como cache
+    $_SESSION['cittamobi_data'] = $dados;
+    $_SESSION['cittamobi_timestamp'] = time();
+}
+
+
 
 if(isset($_GET['c'])){
     detalha_servico($_GET['c'], $dados);
